@@ -17,17 +17,11 @@ export default class Check {
     }
 
     // Split token value from "Bearer <token> in header"
-    const t = header.split(" ")[1];
-
-    // Find token in database
-    const token = await Token.findOne({ token: t });
-    if (!token) {
-      return res.status(401).json({});
-    }
+    const token = header.split(" ")[1];
 
     try {
       const decoded = jwt.verify(
-        token.token,
+        token,
         Config.variables.tokens.accessTokenSecret
       );
 
