@@ -1,7 +1,6 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface IProfile {
-  user: Types.ObjectId;
   firstName: string;
   lastName: string;
   avatar: string;
@@ -10,12 +9,11 @@ export interface IProfile {
 }
 
 export const profileSchema = new mongoose.Schema<IProfile>({
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  avatar: { type: String, required: true },
-  cover: { type: String, required: true },
-  bio: { type: String, required: false },
+  firstName: { type: String, default: null },
+  lastName: { type: String, default: null },
+  avatar: { type: String, default: null },
+  cover: { type: String, default: null },
+  bio: { type: String, default: null },
 });
 
 const Profile = mongoose.model<IProfile>("Profile", profileSchema);
