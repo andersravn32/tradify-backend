@@ -52,3 +52,5 @@ const refresh = async (req: express.Request, res: express.Response) => {
     return res.status(401).json({});
   }
 };
+
+export default refresh;
