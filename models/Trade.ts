@@ -1,5 +1,11 @@
 import mongoose, { Schema, Types } from "mongoose";
 
+export enum TradeRole {
+  Creator,
+  Receiver,
+  Middleman,
+}
+
 export enum TradeResponseState {
   Pending,
   Accepted,
@@ -11,14 +17,17 @@ export interface ITrade {
   description: string;
   creator: {
     user: Types.ObjectId;
+    rating?: Types.ObjectId;
     state: TradeResponseState;
   };
   receiver: {
     user: Types.ObjectId;
+    rating?: Types.ObjectId;
     state: TradeResponseState;
   };
   middleman?: {
     user: Types.ObjectId;
+    rating?: Types.ObjectId;
     state: TradeResponseState;
   };
 }
@@ -38,6 +47,11 @@ export const tradeSchema = new mongoose.Schema<ITrade>({
       ref: "User",
       required: true,
     },
+    rating: {
+      type: Schema.Types.ObjectId,
+      ref: "Rating",
+      default: null,
+    },
     state: {
       type: Number,
       default: TradeResponseState.Pending,
@@ -49,6 +63,11 @@ export const tradeSchema = new mongoose.Schema<ITrade>({
       ref: "User",
       required: true,
     },
+    rating: {
+      type: Schema.Types.ObjectId,
+      ref: "Rating",
+      default: null,
+    },
     state: {
       type: Number,
       default: TradeResponseState.Pending,
@@ -58,6 +77,11 @@ export const tradeSchema = new mongoose.Schema<ITrade>({
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      default: null,
+    },
+    rating: {
+      type: Schema.Types.ObjectId,
+      ref: "Rating",
       default: null,
     },
     state: {

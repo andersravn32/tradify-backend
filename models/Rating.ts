@@ -7,18 +7,12 @@ export enum RatingType {
 }
 
 export interface IRating {
-  trade: Types.ObjectId;
   type: RatingType;
   creator: Types.ObjectId;
   comment?: string;
 }
 
 export const ratingSchema = new mongoose.Schema<IRating>({
-  trade: {
-    type: Schema.Types.ObjectId,
-    ref: "Trade",
-    required: true,
-  },
   type: {
     type: Number,
     required: true,
