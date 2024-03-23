@@ -21,7 +21,8 @@ const refresh = async (req: express.Request, res: express.Response) => {
     );
 
     // Get user from database
-    const user = await User.findById((decoded as any).objectId);
+    const user = await User.findById((decoded as any).objectId).populate("profile");
+
     if (!user) return res.status(401).json({});
 
     // Generate access token
