@@ -1,23 +1,33 @@
 import mongoose from "mongoose";
 import Config from "./utils/Config";
-import User from "./models/User";
-import Trade, { TradeResponseState } from "./models/Trade";
+import express from "express";
+import helmet from "helmet";
+import cors from "cors";
+import http from "http";
+import router from "./router";
 
 const main = async () => {
   // Connect to MongoDB through mongoose
   const url = `mongodb+srv://${Config.variables.mongodb.username}:${Config.variables.mongodb.password}@${Config.variables.mongodb.hostname}/?retryWrites=true&w=majority&appName=${Config.variables.mongodb.database}`;
   await mongoose.connect(url);
 
-  const user = await User.findById("65feda6b36f9719a56c26aff")!;
-  if (!user) return;
+  // Create express app
+  const app = express();
+  app.use(helmet());
+  app.use(cors({ origin: "*" }));
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
 
-  const trade = await Trade.create({
-    title: "2",
-    creator: { user: user, state: TradeResponseState.Accepted },
-    receiver: { user: user },
+  // Use main router
+  app.use("/api", router);
+
+  // Create server object from Express app
+  const server = http.createServer(app);
+
+  // Listen on port from Config
+  server.listen(Config.variables.port, () => {
+    console.log("Application is ready");
   });
-
-  console.log(trade);
 };
 
 // Initialize
