@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Config from "../../../utils/Config";
 import Token, { TokenType } from "../../../models/Token";
+import EmailService, { EmailType } from "../../../services/EmailService";
 
 const signup = async (req: express.Request, res: express.Response) => {
   const { identifier, email, password } = req.body;
@@ -78,7 +79,8 @@ const signup = async (req: express.Request, res: express.Response) => {
     token: confirmationToken,
   });
 
-  // TODO: Notify user via email service and confirmationToken
+  // Send confirmation email via EmailService
+  await EmailService.Send(EmailType.SignupConfirmation, user);
 
   return res.json({
     user: user,
