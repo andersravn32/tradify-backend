@@ -14,7 +14,7 @@ export default class Logger {
     };
   }
 
-  public static Write(message: string) {
+  public static Write(message: unknown) {
     console.log(new Date(), message);
   }
 }
