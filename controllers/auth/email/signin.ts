@@ -9,7 +9,7 @@ const signin = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
 
   // Find user in database
-  const user = await User.findOne({ email: email });
+  const user = await User.findOne({ email: email }).populate("profile");
   if (!user) {
     return res.status(404).json({});
   }
