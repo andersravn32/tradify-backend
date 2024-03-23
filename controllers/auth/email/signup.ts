@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import Config from "../../../utils/Config";
 import Token, { TokenType } from "../../../models/Token";
 import EmailService, { EmailType } from "../../../services/EmailService";
+import Profile from "../../../models/Profile";
 
 const signup = async (req: express.Request, res: express.Response) => {
   const { identifier, email, password } = req.body;
@@ -19,11 +20,15 @@ const signup = async (req: express.Request, res: express.Response) => {
     return res.status(409).json({});
   }
 
+  // Create profile object
+  const profile = await Profile.create({});
+
   // Create user in database
   const user = await User.create({
     identifier: identifier,
     email: email,
     password: await bcrypt.hash(password, 10),
+    profile: profile,
   });
 
   // Generate access token
