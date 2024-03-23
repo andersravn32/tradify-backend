@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { IProfile } from "./Profile";
 
 export enum Roles {
   Guest,
@@ -14,6 +15,7 @@ export interface IUser {
   role: Roles;
   email: string;
   password: string;
+  profile: IProfile;
 }
 
 export const userSchema = new mongoose.Schema<IUser>({
@@ -22,6 +24,7 @@ export const userSchema = new mongoose.Schema<IUser>({
   role: { type: Number, default: Roles.Guest },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  profile: { type: Schema.Types.ObjectId, ref: "Profile", required: true },
 });
 
 const User = mongoose.model<IUser>("User", userSchema);
