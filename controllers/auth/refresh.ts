@@ -3,6 +3,7 @@ import Token, { TokenType } from "../../models/Token";
 import jwt from "jsonwebtoken";
 import Config from "../../utils/Config";
 import User from "../../models/User";
+import Logger from "../../utils/Logger";
 
 const refresh = async (req: express.Request, res: express.Response) => {
   const { refreshToken } = req.body;
@@ -48,7 +49,7 @@ const refresh = async (req: express.Request, res: express.Response) => {
     // Remove old token from database
     await Token.deleteOne({token: refreshToken})
 
-    console.log(error);
+    Logger.Write(error);
     return res.status(401).json({});
   }
 };
