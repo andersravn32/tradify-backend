@@ -1,7 +1,23 @@
+import mongoose, { Schema, Types } from "mongoose";
+
 export enum TokenType {
   Access,
   Refresh,
   SignupConfirmation,
 }
 
-// TODO - Create Token database model
+export interface IToken {
+  user: Types.ObjectId;
+  type: TokenType;
+  token: string;
+}
+
+export const tokenSchema = new mongoose.Schema<IToken>({
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  type: { type: Number, required: true },
+  token: { type: String, required: true },
+});
+
+const Token = mongoose.model<IToken>("Token", tokenSchema);
+
+export default Token;
