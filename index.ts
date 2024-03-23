@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Config from "./utils/Config";
+import Logger from "./utils/Logger";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -13,6 +14,7 @@ const main = async () => {
 
   // Create express app
   const app = express();
+  app.use(Logger.HTTP());
   app.use(helmet());
   app.use(cors({ origin: "*" }));
   app.use(express.urlencoded({ extended: false }));
@@ -26,7 +28,7 @@ const main = async () => {
 
   // Listen on port from Config
   server.listen(Config.variables.port, () => {
-    console.log("Application is ready");
+    Logger.Write("Application is ready")
   });
 };
 
