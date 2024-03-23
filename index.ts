@@ -6,6 +6,15 @@ import helmet from "helmet";
 import cors from "cors";
 import http from "http";
 import router from "./router";
+import { IUser } from "./models/User";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
 
 const main = async () => {
   // Connect to MongoDB through mongoose
@@ -28,7 +37,7 @@ const main = async () => {
 
   // Listen on port from Config
   server.listen(Config.variables.port, () => {
-    Logger.Write("Application is ready")
+    Logger.Write("Application is ready");
   });
 };
 
