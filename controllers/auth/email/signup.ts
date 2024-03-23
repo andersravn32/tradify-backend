@@ -3,7 +3,7 @@ import User from "../../../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Config from "../../../utils/Config";
-import { TokenType } from "../../../models/Token";
+import Token, { TokenType } from "../../../models/Token";
 
 const signup = async (req: express.Request, res: express.Response) => {
   const { identifier, email, password } = req.body;
@@ -53,6 +53,13 @@ const signup = async (req: express.Request, res: express.Response) => {
     }
   );
 
+  // Insert refresh token into database
+  await Token.create({
+    type: TokenType.Refresh,
+    user: user,
+    token: refreshToken,
+  });
+
   // Generate confirmation token
   const confirmationToken = jwt.sign(
     {
@@ -64,6 +71,12 @@ const signup = async (req: express.Request, res: express.Response) => {
       expiresIn: Config.variables.tokens.confirmationExpiresIn,
     }
   );
+  // Insert confirmation token into database
+  await Token.create({
+    type: TokenType.SignupConfirmation,
+    user: user,
+    token: confirmationToken,
+  });
 
   // TODO: Notify user via email service and confirmationToken
 
