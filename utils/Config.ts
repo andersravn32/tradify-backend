@@ -15,8 +15,8 @@ export interface IVariables {
     accessTokenExpiresIn: string;
     refreshTokenSecret: string;
     refreshTokenExpiresIn: string;
-    confirmationSecret: string;
-    confirmationExpiresIn: string;
+    callbackSecret: string;
+    callbackExpiresIn: string;
   };
 }
 
@@ -41,8 +41,8 @@ export default class Config {
         accessTokenExpiresIn: process.env.JWT_ACCESS_EXPIRES as string,
         refreshTokenSecret: process.env.JWT_REFRESH_SECRET as string,
         refreshTokenExpiresIn: process.env.JWT_REFRESH_EXPIRES as string,
-        confirmationSecret: process.env.JWT_CONFIRMATION_SECRET as string,
-        confirmationExpiresIn: process.env.JWT_CONFIRMATION_EXPIRES as string,
+        callbackSecret: process.env.JWT_CALLBACK_SECRET as string,
+        callbackExpiresIn: process.env.JWT_CALLBACK_EXPIRES as string,
       },
     };
   }

@@ -69,12 +69,13 @@ const signup = async (req: express.Request, res: express.Response) => {
   // Generate confirmation token
   const confirmationToken = jwt.sign(
     {
-      TokenType: TokenType.SignupConfirmation,
+      tokenType: TokenType.SignupConfirmation,
       objectId: user._id,
+      destination: "/",
     },
-    Config.variables.tokens.confirmationSecret,
+    Config.variables.tokens.callbackSecret,
     {
-      expiresIn: Config.variables.tokens.confirmationExpiresIn,
+      expiresIn: Config.variables.tokens.callbackExpiresIn,
     }
   );
   // Insert confirmation token into database
