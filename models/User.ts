@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import { IProfile } from "./Profile";
 
 export enum Roles {
@@ -10,6 +10,7 @@ export enum Roles {
 }
 
 export interface IUser {
+  _id: Types.ObjectId;
   identifier: string;
   verified: boolean;
   role: Roles;
