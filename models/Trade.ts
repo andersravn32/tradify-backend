@@ -1,4 +1,24 @@
 import mongoose, { Schema, Types } from "mongoose";
+import { IUser } from "./User";
+
+export const determineTradeRole = (
+  trade: ITrade,
+  user: IUser
+): TradeRole | undefined => {
+  if (trade.creator.user === user._id) {
+    return TradeRole.Creator;
+  }
+
+  if (trade.receiver.user === user._id) {
+    return TradeRole.Receiver;
+  }
+
+  if (trade.middleman && trade.middleman.user === user._id) {
+    return TradeRole.Middleman;
+  }
+
+  return undefined;
+};
 
 export enum TradeRole {
   Creator,
