@@ -1,7 +1,10 @@
 import express from "express";
 import User from "../../models/User";
+import meRouter from "./me";
 
 const router = express.Router();
+
+router.use("/me", meRouter)
 
 router.get("/:identifier", async (req, res) => {
   const user = await User.findOne({
