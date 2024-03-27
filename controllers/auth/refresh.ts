@@ -21,7 +21,7 @@ const refresh = async (req: express.Request, res: express.Response) => {
     );
 
     // Get user from database
-    const user = await User.findById((decoded as any).objectId).populate("profile");
+    const user = await User.findById((decoded as any).objectId);
 
     if (!user) return res.status(401).json({});
 
@@ -48,7 +48,7 @@ const refresh = async (req: express.Request, res: express.Response) => {
     });
   } catch (error) {
     // Remove old token from database
-    await Token.deleteOne({token: refreshToken})
+    await Token.deleteOne({ token: refreshToken });
 
     Logger.Write(error);
     return res.status(401).json({});

@@ -1,5 +1,4 @@
 import express from "express";
-import Token from "../models/Token";
 import jwt from "jsonwebtoken";
 import Config from "../utils/Config";
 import User, { Roles } from "../models/User";
@@ -26,9 +25,8 @@ export default class Check {
       );
 
       // Get user from database
-      const user = await User.findById((decoded as any).objectId).populate(
-        "profile"
-      );
+      const user = await User.findById((decoded as any).objectId)
+      
       if (!user) {
         return res.status(401).json({});
       }

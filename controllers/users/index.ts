@@ -4,12 +4,12 @@ import meRouter from "./me";
 
 const router = express.Router();
 
-router.use("/me", meRouter)
+router.use("/me", meRouter);
 
 router.get("/:identifier", async (req, res) => {
   const user = await User.findOne({
     identifier: req.params.identifier,
-  }).populate("profile");
+  });
   if (!user) {
     return res.status(404).json({});
   }

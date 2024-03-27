@@ -19,16 +19,12 @@ const signup = async (req: express.Request, res: express.Response) => {
   if (duplicates.length) {
     return res.status(409).json({});
   }
-
-  // Create profile object
-  const profile = await Profile.create({});
-
+  
   // Create user in database
   const user = await User.create({
     identifier: identifier,
     email: email,
     password: await bcrypt.hash(password, 10),
-    profile: profile,
   });
 
   // Generate access token
