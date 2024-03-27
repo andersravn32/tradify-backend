@@ -1,10 +1,19 @@
 import express from "express";
-import { Trade } from "../../models";
+import { Profile, Trade } from "../../models";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   return res.json(req.user);
+});
+
+router.get("/profile", async (req, res) => {
+  const profile = await Profile.findOne({ user: req.user._id });
+  if (!profile) {
+    return res.status(404).json({});
+  }
+
+  return res.json(profile);
 });
 
 router.get("/trades", async (req, res) => {
