@@ -32,6 +32,9 @@ const main = async () => {
   // Use main router
   app.use("/api", router);
 
+  // Use this route for init call
+  app.get("/health", (req, res) => res.json({}));
+
   // Create server object from Express app
   const server = http.createServer(app);
 
