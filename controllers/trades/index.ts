@@ -1,6 +1,7 @@
 import express from "express";
 import Trade, { TradeRole, determineTradeRole } from "../../models/Trade";
 import Rating, { IRating } from "../../models/Rating";
+import Notification, { NotificationType } from "../../models/Notification";
 
 const router = express.Router();
 
@@ -13,6 +14,23 @@ router.post("/", async (req, res) => {
     receiver: { user: receiver },
     middleman: { user: middleman },
   });
+
+  // Create notification for receiving user
+  if (receiver) {
+    await Notification.create({
+      receiver: receiver,
+      type: NotificationType.TradeCreated,
+      notifier: creator,
+    });
+  }
+
+  if (middleman) {
+    await Notification.create({
+      receiver: middleman,
+      type: NotificationType.TradeCreated,
+      notifier: creator,
+    });
+  }
 
   return res.json(trade);
 });
