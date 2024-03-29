@@ -32,6 +32,13 @@ export enum TradeResponseState {
   Rejected,
 }
 
+export enum TradeState {
+  Pending,
+  Ongoing,
+  Canceled,
+  Completed,
+}
+
 export interface ITrade {
   title: string;
   description: string;
@@ -45,11 +52,12 @@ export interface ITrade {
     rating?: Types.ObjectId;
     state: TradeResponseState;
   };
-  middleman?: {
+  middleman: {
     user: Types.ObjectId;
     rating?: Types.ObjectId;
     state: TradeResponseState;
   };
+  state: TradeState;
 }
 
 export const tradeSchema = new mongoose.Schema<ITrade>({
@@ -108,6 +116,10 @@ export const tradeSchema = new mongoose.Schema<ITrade>({
       type: Number,
       default: TradeResponseState.Pending,
     },
+  },
+  state: {
+    type: Number,
+    default: TradeState.Pending,
   },
 });
 
